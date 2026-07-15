@@ -18,6 +18,16 @@ const formatTag = (tag) => {
     return '%23' + cleanTag;
 };
 
+// Endpoint temporar pentru a afla IP-ul de iesire (Outbound IP) al serverului Render
+app.get('/my-ip', async (req, res) => {
+    try {
+        const response = await axios.get('https://api.ipify.org?format=json');
+        res.json({ render_outbound_ip: response.data.ip });
+    } catch (error) {
+        res.status(500).json({ error: 'Nu am putut afla IP-ul' });
+    }
+});
+
 // Main endpoint to fetch player data
 app.get('/api/player/:tag', async (req, res) => {
     try {
